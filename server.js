@@ -24,3 +24,10 @@ app.listen(3000, () => {
 const employeeRoutes = require('./routes/employee.routes');
 
 app.use('/employees', employeeRoutes);
+
+// departments & responsibilities routes
+const departmentRoutes = require('./routes/department.routes');
+const responsibilityRoutes = require('./routes/responsibility.routes');
+
+app.use('/departments', departmentRoutes);
+app.use('/responsibilities', responsibilityRoutes);
