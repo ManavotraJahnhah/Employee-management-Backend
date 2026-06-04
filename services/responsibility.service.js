@@ -1,4 +1,4 @@
-const { Responsibility } = require('../models');
+const { Responsibility } = require("../models");
 
 exports.getAllResponsibilities = async () => {
   return await Responsibility.findAll();
