@@ -1,5 +1,8 @@
 const responsibilityService = require("../services/responsibility.service");
 
+// Contrôleur Responsibility : endpoints CRUD pour les responsabilités
+
+// GET /responsibilities - liste toutes les responsabilités
 exports.getAllResponsibilities = async (req, res) => {
   try {
     const responsibilities =
@@ -10,6 +13,7 @@ exports.getAllResponsibilities = async (req, res) => {
   }
 };
 
+// GET /responsibilities/:id - récupère une responsabilité par id
 exports.getResponsibilityById = async (req, res) => {
   try {
     const r = await responsibilityService.getResponsibilityById(req.params.id);
@@ -21,6 +25,7 @@ exports.getResponsibilityById = async (req, res) => {
   }
 };
 
+// POST /responsibilities - crée une nouvelle responsabilité
 exports.createResponsibility = async (req, res) => {
   try {
     const r = await responsibilityService.createResponsibility(req.body);
@@ -30,6 +35,7 @@ exports.createResponsibility = async (req, res) => {
   }
 };
 
+// PUT /responsibilities/:id - met à jour une responsabilité
 exports.updateResponsibility = async (req, res) => {
   try {
     const updated = await responsibilityService.updateResponsibility(
@@ -44,6 +50,7 @@ exports.updateResponsibility = async (req, res) => {
   }
 };
 
+// DELETE /responsibilities/:id - supprime une responsabilité
 exports.deleteResponsibility = async (req, res) => {
   try {
     const deleted = await responsibilityService.deleteResponsibility(

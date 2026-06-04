@@ -1,5 +1,7 @@
 const { Responsibility } = require("../models");
 
+// Service Responsibility : logique métier pour gérer les responsabilités
+
 exports.getAllResponsibilities = async () => {
   return await Responsibility.findAll();
 };

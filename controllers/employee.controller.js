@@ -1,17 +1,22 @@
 const employeeService = require('../services/employee.service');
 
+// Contrôleur Employee : traduit les requêtes HTTP en appels de service
+
+// Récupère la liste complète des employés (GET /employees)
 exports.getAllEmployees = async (req, res) => {
   try {
     const employees = await employeeService.getAllEmployees();
 
     res.json(employees);
   } catch (error) {
+    // Erreur serveur : renvoyer le message d'erreur
     res.status(500).json({
       error: error.message
     });
   }
 };
 
+// Récupère un employé par son identifiant (GET /employees/:id)
 exports.getEmployeeById = async (req, res) => {
   try {
     const employee = await employeeService.getEmployeeById(
@@ -19,6 +24,7 @@ exports.getEmployeeById = async (req, res) => {
     );
 
     if (!employee) {
+      // Si l'employé n'existe pas, renvoyer 404
       return res.status(404).json({
         message: 'Employee not found'
       });
@@ -32,12 +38,15 @@ exports.getEmployeeById = async (req, res) => {
   }
 };
 
+// Crée un nouvel employé (POST /employees)
+// Le corps de la requête doit contenir les champs attendus par le service
 exports.createEmployee = async (req, res) => {
   try {
     const employee = await employeeService.createEmployee(
       req.body
     );
 
+    // Création réussie -> 201 Created
     res.status(201).json(employee);
   } catch (error) {
     res.status(500).json({
@@ -46,6 +55,7 @@ exports.createEmployee = async (req, res) => {
   }
 };
 
+// Met à jour un employé existant (PUT /employees/:id)
 exports.updateEmployee = async (req, res) => {
   try {
     const employee = await employeeService.updateEmployee(
@@ -54,6 +64,7 @@ exports.updateEmployee = async (req, res) => {
     );
 
     if (!employee) {
+      // Si l'employé n'existe pas, renvoyer 404
       return res.status(404).json({
         message: 'Employee not found'
       });
@@ -67,6 +78,7 @@ exports.updateEmployee = async (req, res) => {
   }
 };
 
+// Supprime un employé (DELETE /employees/:id)
 exports.deleteEmployee = async (req, res) => {
   try {
     const deleted = await employeeService.deleteEmployee(
@@ -79,6 +91,7 @@ exports.deleteEmployee = async (req, res) => {
       });
     }
 
+    // Suppression réussie -> 204 No Content
     res.sendStatus(204);
   } catch (error) {
     res.status(500).json({

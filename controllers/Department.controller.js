@@ -1,5 +1,8 @@
 const departmentService = require("../services/department.service");
 
+// Contrôleur Department : endpoints CRUD pour les départements
+
+// GET /departments - retourne la liste des départements
 exports.getAllDepartments = async (req, res) => {
   try {
     const departments = await departmentService.getAllDepartments();
@@ -9,6 +12,7 @@ exports.getAllDepartments = async (req, res) => {
   }
 };
 
+// GET /departments/:id - retourne un département par son id
 exports.getDepartmentById = async (req, res) => {
   try {
     const dept = await departmentService.getDepartmentById(req.params.id);
@@ -19,6 +23,7 @@ exports.getDepartmentById = async (req, res) => {
   }
 };
 
+// POST /departments - crée un nouveau département
 exports.createDepartment = async (req, res) => {
   try {
     const dept = await departmentService.createDepartment(req.body);
@@ -28,6 +33,7 @@ exports.createDepartment = async (req, res) => {
   }
 };
 
+// PUT /departments/:id - met à jour un département existant
 exports.updateDepartment = async (req, res) => {
   try {
     const updated = await departmentService.updateDepartment(
@@ -42,6 +48,7 @@ exports.updateDepartment = async (req, res) => {
   }
 };
 
+// DELETE /departments/:id - supprime un département
 exports.deleteDepartment = async (req, res) => {
   try {
     const deleted = await departmentService.deleteDepartment(req.params.id);
