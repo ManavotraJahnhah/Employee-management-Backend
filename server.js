@@ -1,12 +1,16 @@
 const express = require("express");
 const cors = require("cors");
 const { sequelize } = require("./models");
+const swaggerUi = require("swagger-ui-express");
+const swaggerSpec = require("./swagger");
 
 const app = express();
 
 // Configuration des middlewares express
 app.use(cors());
 app.use(express.json());
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 // Route de test simple pour vérifier que l'API répond
 app.get("/", (req, res) => {
