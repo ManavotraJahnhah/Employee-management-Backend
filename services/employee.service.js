@@ -67,3 +67,11 @@ exports.deleteEmployee = async (id) => {
     },
   });
 };
+
+exports.checkEmployeeCode = async (employeeCode) => {
+  const employee = await Employee.findOne({
+    where: { employeeCode },
+  });
+
+  return !employee;
+};

@@ -20,7 +20,7 @@ app.get("/", (req, res) => {
 
 // Synchronisation Sequelize avec la base de données
 // `alter: true` adapte les tables au modèle sans perdre les données (utile en développement)
-sequelize.sync({ alter: true }).then(() => {
+sequelize.sync().then(() => {
   console.log("Database synced");
 });
 

@@ -1,4 +1,5 @@
-const employeeService = require('../services/employee.service');
+const employeeService = require("../services/employee.service");
+const { Employee } = require("../models");
 
 // Contrôleur Employee : traduit les requêtes HTTP en appels de service
 
@@ -11,7 +12,7 @@ exports.getAllEmployees = async (req, res) => {
   } catch (error) {
     // Erreur serveur : renvoyer le message d'erreur
     res.status(500).json({
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -19,21 +20,19 @@ exports.getAllEmployees = async (req, res) => {
 // Récupère un employé par son identifiant (GET /employees/:id)
 exports.getEmployeeById = async (req, res) => {
   try {
-    const employee = await employeeService.getEmployeeById(
-      req.params.id
-    );
+    const employee = await employeeService.getEmployeeById(req.params.id);
 
     if (!employee) {
       // Si l'employé n'existe pas, renvoyer 404
       return res.status(404).json({
-        message: 'Employee not found'
+        message: "Employee not found",
       });
     }
 
     res.json(employee);
   } catch (error) {
     res.status(500).json({
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -42,15 +41,13 @@ exports.getEmployeeById = async (req, res) => {
 // Le corps de la requête doit contenir les champs attendus par le service
 exports.createEmployee = async (req, res) => {
   try {
-    const employee = await employeeService.createEmployee(
-      req.body
-    );
+    const employee = await employeeService.createEmployee(req.body);
 
     // Création réussie -> 201 Created
     res.status(201).json(employee);
   } catch (error) {
     res.status(500).json({
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -60,20 +57,20 @@ exports.updateEmployee = async (req, res) => {
   try {
     const employee = await employeeService.updateEmployee(
       req.params.id,
-      req.body
+      req.body,
     );
 
     if (!employee) {
       // Si l'employé n'existe pas, renvoyer 404
       return res.status(404).json({
-        message: 'Employee not found'
+        message: "Employee not found",
       });
     }
 
     res.json(employee);
   } catch (error) {
     res.status(500).json({
-      error: error.message
+      error: error.message,
     });
   }
 };
@@ -81,13 +78,11 @@ exports.updateEmployee = async (req, res) => {
 // Supprime un employé (DELETE /employees/:id)
 exports.deleteEmployee = async (req, res) => {
   try {
-    const deleted = await employeeService.deleteEmployee(
-      req.params.id
-    );
+    const deleted = await employeeService.deleteEmployee(req.params.id);
 
     if (!deleted) {
       return res.status(404).json({
-        message: 'Employee not found'
+        message: "Employee not found",
       });
     }
 
@@ -95,7 +90,38 @@ exports.deleteEmployee = async (req, res) => {
     res.sendStatus(204);
   } catch (error) {
     res.status(500).json({
-      error: error.message
+      error: error.message,
+    });
+  }
+};
+
+exports.checkEmployeeCode = async (req, res) => {
+  try {
+    let { employeeCode } = req.params;
+
+    if (!employeeCode) {
+      return res.json({ available: true });
+    }
+
+    // Clean input (IMPORTANT)
+    employeeCode = employeeCode.trim().toUpperCase();
+
+    if (employeeCode.length < 3) {
+      return res.json({ available: true });
+    }
+
+    const employee = await Employee.findOne({
+      where: { employeeCode },
+    });
+
+    return res.json({
+      available: !employee,
+    });
+  } catch (error) {
+    console.error("checkEmployeeCode ERROR:", error);
+
+    return res.status(500).json({
+      message: "Internal server error",
     });
   }
 };

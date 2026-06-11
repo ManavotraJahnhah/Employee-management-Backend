@@ -101,5 +101,6 @@ router.put("/:id", employeeController.updateEmployee);
  *         description: Employee not found
  */
 router.delete("/:id", employeeController.deleteEmployee);
+router.get("/check-code/:employeeCode", employeeController.checkEmployeeCode);
 
 module.exports = router;
