@@ -102,5 +102,9 @@ router.put("/:id", employeeController.updateEmployee);
  */
 router.delete("/:id", employeeController.deleteEmployee);
 router.get("/check-code/:employeeCode", employeeController.checkEmployeeCode);
+router.get(
+  "/check-code/:employeeCode/:employeeId",
+  employeeController.checkEmployeeCode,
+);
 
 module.exports = router;

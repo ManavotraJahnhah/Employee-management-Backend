@@ -1,6 +1,6 @@
 const employeeService = require("../services/employee.service");
 const { Employee } = require("../models");
-
+const { Op } = require("sequelize");
 // Contrôleur Employee : traduit les requêtes HTTP en appels de service
 
 // Récupère la liste complète des employés (GET /employees)
@@ -97,28 +97,25 @@ exports.deleteEmployee = async (req, res) => {
 
 exports.checkEmployeeCode = async (req, res) => {
   try {
-    let { employeeCode } = req.params;
+    let { employeeCode, employeeId } = req.params;
 
-    if (!employeeCode) {
-      return res.json({ available: true });
-    }
-
-    // Clean input (IMPORTANT)
     employeeCode = employeeCode.trim().toUpperCase();
 
-    if (employeeCode.length < 3) {
-      return res.json({ available: true });
+    const where = { employeeCode };
+
+    if (employeeId) {
+      where.id = {
+        [Op.ne]: employeeId,
+      };
     }
 
-    const employee = await Employee.findOne({
-      where: { employeeCode },
-    });
+    const employee = await Employee.findOne({ where });
 
     return res.json({
       available: !employee,
     });
   } catch (error) {
-    console.error("checkEmployeeCode ERROR:", error);
+    console.error(error);
 
     return res.status(500).json({
       message: "Internal server error",
